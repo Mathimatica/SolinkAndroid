@@ -1,15 +1,15 @@
 package com.example.solink.repository
 
-import com.example.solink.network.data.UserResponse
-import com.example.solink.network.service.UserService
+import com.example.solink.network.data.PhotoResponse
+import com.example.solink.network.service.PhotoService
 import javax.inject.Inject
 
-class UserRepository @Inject constructor(
-    private val apiService: UserService
+class PhotoRepository @Inject constructor(
+    private val apiService: PhotoService
 ) {
-    suspend fun fetchUserById(userId: Int): ApiResult<UserResponse> {
+    suspend fun fetchPhotoById(page: Int, perPage:Int): ApiResult<PhotoResponse> {
         return try {
-            val response = apiService.getUserById(userId)
+            val response = apiService.getPhotos(page, perPage)
             if (response.isSuccessful) {
                 response.body()?.let {
                     ApiResult.Success(it)
@@ -23,4 +23,3 @@ class UserRepository @Inject constructor(
         }
     }
 }
-

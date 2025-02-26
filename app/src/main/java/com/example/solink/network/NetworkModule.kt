@@ -1,5 +1,7 @@
 package com.example.solink.network
 
+import com.example.solink.network.service.PhotoService
+import com.example.solink.network.service.UserService
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -14,16 +16,21 @@ object NetworkModule {
 
     @Provides
     @Singleton
-    fun provideRetrofit(): Retrofit {
-        return Retrofit.Builder()
+    fun provideUserService(): UserService {
+        val retrofit = Retrofit.Builder()
             .baseUrl("https://jsonplaceholder.typicode.com/")
             .addConverterFactory(GsonConverterFactory.create())
             .build()
+        return retrofit.create(UserService::class.java)
     }
 
     @Provides
     @Singleton
-    fun provideSLService(retrofit: Retrofit): SLService {
-        return retrofit.create(SLService::class.java)
+    fun providePhotoService(): PhotoService {
+        val retrofit = Retrofit.Builder()
+            .baseUrl("https://api.pexels.com/")
+            .addConverterFactory(GsonConverterFactory.create())
+            .build()
+        return retrofit.create(PhotoService::class.java)
     }
 }

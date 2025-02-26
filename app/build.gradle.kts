@@ -60,6 +60,7 @@ dependencies {
     implementation(libs.hilt.android)
     kapt(libs.hilt.compiler)
     implementation(libs.kotlin.serialization)
+    implementation(libs.coil.image)
 
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)

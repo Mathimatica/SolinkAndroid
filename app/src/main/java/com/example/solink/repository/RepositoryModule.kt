@@ -1,6 +1,7 @@
 package com.example.solink.repository
 
-import com.example.solink.network.SLService
+import com.example.solink.network.service.PhotoService
+import com.example.solink.network.service.UserService
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -12,7 +13,13 @@ import javax.inject.Singleton
 object AppModule {
     @Provides
     @Singleton
-    fun provideUserRepository(apiService: SLService): UserRepository {
+    fun provideUserRepository(apiService: UserService): UserRepository {
         return UserRepository(apiService)
+    }
+
+    @Provides
+    @Singleton
+    fun providePhotoRepository(apiService: PhotoService): PhotoRepository {
+        return PhotoRepository(apiService)
     }
 }
