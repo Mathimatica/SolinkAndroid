@@ -1,4 +1,4 @@
-package com.example.solink.repository
+package com.example.solink.network
 
 sealed class ApiResult<out T> {
     data class Success<T>(val data: T) : ApiResult<T>()

@@ -1,16 +1,10 @@
 package com.example.solink.ui.screen
 
-import android.content.ClipData
-import android.content.ClipboardManager
-import android.content.Context
-import androidx.compose.foundation.Image
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
@@ -36,8 +30,8 @@ import coil.compose.AsyncImage
 import coil.request.CachePolicy
 import coil.request.ImageRequest
 import com.example.solink.R
-import com.example.solink.ui.StateHolder
-import com.example.solink.ui.UserStateHolder
+import com.example.solink.ui.stateholder.StateHolder
+import com.example.solink.ui.stateholder.UserStateHolder
 import com.example.solink.ui.theme.SolinkTheme
 
 @Composable

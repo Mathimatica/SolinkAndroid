@@ -1,5 +1,6 @@
 package com.example.solink.repository
 
+import com.example.solink.network.ApiResult
 import com.example.solink.network.data.UserResponse
 import com.example.solink.network.service.UserService
 import javax.inject.Inject

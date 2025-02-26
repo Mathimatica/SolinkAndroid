@@ -6,11 +6,11 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.navigation.toRoute
 import com.example.solink.UserScreenArgs
-import com.example.solink.repository.ApiResult
+import com.example.solink.network.ApiResult
 import com.example.solink.repository.PhotoRepository
 import com.example.solink.repository.UserRepository
-import com.example.solink.ui.StateHolder
-import com.example.solink.ui.UserStateHolder
+import com.example.solink.ui.stateholder.StateHolder
+import com.example.solink.ui.stateholder.UserStateHolder
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import javax.inject.Inject

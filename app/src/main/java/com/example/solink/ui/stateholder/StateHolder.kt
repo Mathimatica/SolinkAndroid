@@ -1,4 +1,4 @@
-package com.example.solink.ui
+package com.example.solink.ui.stateholder
 
 sealed class StateHolder<out T> {
     data object Loading : StateHolder<Nothing>()
