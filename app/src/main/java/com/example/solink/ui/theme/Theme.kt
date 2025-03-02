@@ -1,6 +1,5 @@
 package com.example.solink.ui.theme
 
-import android.app.Activity
 import android.os.Build
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.material3.MaterialTheme
@@ -9,7 +8,12 @@ import androidx.compose.material3.dynamicDarkColorScheme
 import androidx.compose.material3.dynamicLightColorScheme
 import androidx.compose.material3.lightColorScheme
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.CompositionLocalProvider
+import androidx.compose.runtime.ReadOnlyComposable
+import androidx.compose.runtime.staticCompositionLocalOf
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.unit.Dp
+import androidx.compose.ui.unit.dp
 
 private val DarkColorScheme = darkColorScheme(
     primary = Purple80,
@@ -33,6 +37,39 @@ private val LightColorScheme = lightColorScheme(
     */
 )
 
+// Define your Spacing data class
+data class Spacing(
+    val small: Dp = 8.dp,
+    val medium: Dp = 16.dp,
+    val large: Dp = 24.dp
+)
+
+// Define your ProfileImage data class
+data class ProfileImage(
+    val small: Dp = 100.dp,
+    val medium: Dp = 150.dp,
+    val large: Dp = 200.dp
+)
+
+// Create a CompositionLocal for Spacing
+val LocalSpacing = staticCompositionLocalOf { Spacing() }
+
+// Create a CompositionLocal for ProfileImage
+val LocalProfileImage = staticCompositionLocalOf { ProfileImage() }
+
+// Extend MaterialTheme to include your custom properties
+object SolinkTheme {
+    val spacing: Spacing
+        @Composable
+        @ReadOnlyComposable
+        get() = LocalSpacing.current
+
+    val profileImage: ProfileImage
+        @Composable
+        @ReadOnlyComposable
+        get() = LocalProfileImage.current
+}
+
 @Composable
 fun SolinkTheme(
     darkTheme: Boolean = isSystemInDarkTheme(),
@@ -50,9 +87,17 @@ fun SolinkTheme(
         else -> LightColorScheme
     }
 
-    MaterialTheme(
-        colorScheme = colorScheme,
-        typography = Typography,
-        content = content
-    )
+    // Provide the Spacing and ProfileImage values to the Composition
+    val spacing = Spacing()
+    val profileImage = ProfileImage()
+    CompositionLocalProvider(
+        LocalSpacing provides spacing,
+        LocalProfileImage provides profileImage
+    ) {
+        MaterialTheme(
+            colorScheme = colorScheme,
+            typography = Typography,
+            content = content
+        )
+    }
 }

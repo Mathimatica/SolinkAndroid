@@ -29,7 +29,6 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
-import coil.request.CachePolicy
 import coil.request.ImageRequest
 import com.example.solink.R
 import com.example.solink.ui.stateholder.StateHolder
@@ -44,7 +43,7 @@ fun UserListScreen(stateHolder: StateHolder<UserListStateHolder>) {
             modifier = Modifier
                 .fillMaxSize()
                 .statusBarsPadding()
-                .padding(16.dp),
+                .padding(SolinkTheme.spacing.medium),
         ) { innerPadding ->
             Box(
                 modifier = Modifier
@@ -90,7 +89,7 @@ private fun UserListItemView(stateHolder: UserListItemStateHolder){
         ),
         elevation = CardDefaults.cardElevation(defaultElevation = 2.dp)
     ) {
-        Row(modifier = Modifier.fillMaxWidth().padding(16.dp), horizontalArrangement = Arrangement.SpaceBetween, verticalAlignment = Alignment.CenterVertically) {
+        Row(modifier = Modifier.fillMaxWidth().padding(SolinkTheme.spacing.medium), horizontalArrangement = Arrangement.SpaceBetween, verticalAlignment = Alignment.CenterVertically) {
             Text(
                 text = stateHolder.name,
                 style = MaterialTheme.typography.headlineMedium,
@@ -98,9 +97,6 @@ private fun UserListItemView(stateHolder: UserListItemStateHolder){
             )
             AsyncImage(
                 model = ImageRequest.Builder(LocalContext.current)
-                    .memoryCachePolicy(CachePolicy.DISABLED)
-                    .diskCachePolicy(CachePolicy.DISABLED)
-                    .networkCachePolicy(CachePolicy.ENABLED)
                     .data(stateHolder.imageURL)
                     .crossfade(true)
                     .build(),
