@@ -19,6 +19,7 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -28,6 +29,7 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
 import com.example.solink.R
@@ -35,9 +37,18 @@ import com.example.solink.ui.stateholder.StateHolder
 import com.example.solink.ui.stateholder.UserListItemStateHolder
 import com.example.solink.ui.stateholder.UserListStateHolder
 import com.example.solink.ui.theme.SolinkTheme
+import com.example.solink.viewmodel.UserListViewModel
 
 @Composable
-fun UserListScreen(stateHolder: StateHolder<UserListStateHolder>) {
+fun UserListScreen(photoItemClicked:(UserListItemStateHolder)->Unit) {
+    val userViewModel: UserListViewModel = hiltViewModel()
+    val stateHolder by userViewModel.stateHolder
+    UserListScreen(stateHolder, photoItemClicked)
+}
+
+@Composable
+private fun UserListScreen(stateHolder:StateHolder<UserListStateHolder>, photoItemClicked:(UserListItemStateHolder)->Unit) {
+
     SolinkTheme {
         Scaffold(
             modifier = Modifier
@@ -59,8 +70,10 @@ fun UserListScreen(stateHolder: StateHolder<UserListStateHolder>) {
                         LazyColumn(
                             modifier = Modifier.fillMaxSize()
                         ) {
-                            items(stateHolder.data.users) { stateHolder ->
-                                UserListItemView(stateHolder = stateHolder)
+                            items(stateHolder.data.users) { user ->
+                                UserListItemView(stateHolder = user) {
+                                    photoItemClicked(user)
+                                }
                             }
                         }
                     }
@@ -74,12 +87,12 @@ fun UserListScreen(stateHolder: StateHolder<UserListStateHolder>) {
 }
 
 @Composable
-private fun UserListItemView(stateHolder: UserListItemStateHolder){
+private fun UserListItemView(stateHolder: UserListItemStateHolder, onClick:()->Unit){
     Card(
         modifier = Modifier
             .fillMaxWidth()
             .padding(vertical = 4.dp).clickable {
-                stateHolder.onClick?.let { it() }
+                onClick()
             },
         colors = CardDefaults.cardColors(
             containerColor = Color(0xFF0288D1), // A vibrant, trustworthy blue (Material's light blue 700)
@@ -97,7 +110,7 @@ private fun UserListItemView(stateHolder: UserListItemStateHolder){
             )
             AsyncImage(
                 model = ImageRequest.Builder(LocalContext.current)
-                    .data(stateHolder.imageURL)
+                    .data(stateHolder.smallURL)
                     .crossfade(true)
                     .build(),
                 placeholder = painterResource(R.drawable.placeholder_profile_image),
@@ -112,7 +125,9 @@ private fun UserListItemView(stateHolder: UserListItemStateHolder){
 @Preview(showBackground = true)
 @Composable
 fun UserScreenLoadingPreview() {
-    UserListScreen(StateHolder.Loading)
+    UserListScreen(StateHolder.Loading){
+
+    }
 }
 
 @Preview(showBackground = true)
@@ -149,11 +164,15 @@ fun UserScreenSuccessPreview() {
         UserListItemStateHolder("Henry"),
         UserListItemStateHolder("John"),
         UserListItemStateHolder("Kate")
-    ))))
+    )))){
+
+    }
 }
 
 @Preview(showBackground = true)
 @Composable
 fun UserScreenFailurePreview() {
-    UserListScreen(StateHolder.Error("Unknown Error"))
+    UserListScreen(StateHolder.Error("Unknown Error")){
+
+    }
 }

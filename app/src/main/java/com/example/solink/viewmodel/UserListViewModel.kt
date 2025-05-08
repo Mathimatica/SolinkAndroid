@@ -7,7 +7,6 @@ import androidx.lifecycle.viewModelScope
 import androidx.navigation.toRoute
 import com.example.solink.UserListScreenArgs
 import com.example.solink.network.ApiResult
-import com.example.solink.network.data.Photo
 import com.example.solink.repository.PhotoRepository
 import com.example.solink.ui.stateholder.StateHolder
 import com.example.solink.ui.stateholder.UserListItemStateHolder
@@ -24,8 +23,6 @@ class UserListViewModel @Inject constructor(
 
     val stateHolder = mutableStateOf<StateHolder<UserListStateHolder>>(StateHolder.Loading)
 
-    var photoItemClicked:(Photo)->Unit = {  }
-
     init {
         val userArgs = savedStateHandle.toRoute<UserListScreenArgs>()
         fetchData(userArgs)
@@ -39,9 +36,7 @@ class UserListViewModel @Inject constructor(
                     stateHolder.value = StateHolder.Error(photoData.message)
                 }
                 is ApiResult.Success -> {
-                    stateHolder.value = StateHolder.Success(UserListStateHolder(photoData.data.photos.map { UserListItemStateHolder(it.photographer, it.src.small){
-                        photoItemClicked(it)
-                    } }))
+                    stateHolder.value = StateHolder.Success(UserListStateHolder(photoData.data.photos.map { UserListItemStateHolder(it.photographer, it.src.small, it.src.original) } ))
                 }
             }
         }
